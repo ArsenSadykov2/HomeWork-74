@@ -19,11 +19,14 @@ const fileDb = {
             console.log(e);
         }
     },
+    async getMessageById(dateTime: string) {
+        return data.find(m => m.dateTime === dateTime);
+    },
     async getAllMessages() {
         return data;
     },
     async addNewMessage(message:MessageWithoutId){
-        const dateTime = new Date().toDateString();
+        const dateTime = new Date().toISOString();
         const newMessage = {dateTime, ...message};
         data.push(newMessage);
         await this.save();

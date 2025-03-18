@@ -1,17 +1,21 @@
 import express from "express";
+import messageRouter from "./routers/messages";
+import fileDb from "./fileDb";
 
 const app = express();
 const port = 8000;
 
-app.get('/messages', (req, res) => {
-    res.send('Получен весь список сообщений');
-});
+app.use(express.json());
+app.use('/messages', messageRouter);
 
-app.post('/messages', (req, res) => {
-    res.send('Создали новое сообщение');
-});
+const run = async () => {
+    await fileDb.init();
 
-app.listen(port, () => {
-    console.log(`Server started on http://localhost:${port}`);
-})
+
+    app.listen(port, () => {
+        console.log(`Server started on http://localhost:${port}`);
+    });
+};
+
+run().catch(console.error);
 
